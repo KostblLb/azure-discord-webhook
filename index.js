@@ -23,7 +23,7 @@ app.get("/", function (req, res) {
   }
 
   var [whId, whToken] = [whParts[1], whParts[2]];
-  var hash = md5('' + whId + whToken);
+  var hash = md5('randomseed12e98u3498u23498u' + whId + whToken);
   if (!webhooks.has(hash)) {
     webhooks.set(hash, { id: whId, token: whToken });
   }
