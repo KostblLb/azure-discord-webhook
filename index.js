@@ -2,6 +2,7 @@ var https = require("https");
 var express = require("express");
 var app = express();
 var md5 = require("md5");
+const PORT = process.env.PORT || 5000
 
 var webhooks = new Map();
 
@@ -94,6 +95,6 @@ app.use(express.json()).post("/:id", function (req, res) {
   discordRequest.end();
 });
 
-app.listen(3000, function () {
+app.listen(PORT, function () {
   console.log("Example app listening on port 3000!");
 });
