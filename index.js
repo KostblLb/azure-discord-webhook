@@ -2,9 +2,31 @@ var https = require("https");
 var express = require("express");
 var app = express();
 var md5 = require("md5");
-const PORT = process.env.PORT || 5000
+
+var { Pool } = require('pg');
+var pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+var PORT = process.env.PORT || 5000
 
 var webhooks = new Map();
+
+app.get('/db', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM test_table');
+    const results = { 'results': (result) ? result.rows : null};
+    res.end(results);
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+})
 
 app.get("/", function (req, res) {
   var whRegex = /(\d+)\/([\w\d]+)\/?$/;
