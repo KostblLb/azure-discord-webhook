@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
+    "local": "set DATABASE_URL=postgres://$(whoami) && node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
