@@ -23,7 +23,7 @@ app.get("/", async (req, res) => {
     return;
   }
 
-  var [whId, whToken] = [whParts[1], whParts[2]];
+  var [whId, whToken] = [whParts[1].trim(), whParts[2].trim()];
   var hash = md5("randomseed12e98u3498u23498u" + whId + whToken);
   
   var searchResult = (await whStorage.get(hash) || {}).hash;
@@ -68,7 +68,7 @@ app.use(express.json()).post("/:id", async (req, res) => {
     {
       method: "POST",
       host: "discordapp.com",
-      path: `/api/webhooks/${wh.id}/${wh.token}`,
+      path: `/api/webhooks/${wh.id}/${wh.token.trim()}`,
     },
     (discordRes) => {
       res.status(discordRes.statusCode);
