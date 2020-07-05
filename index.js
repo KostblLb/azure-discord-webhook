@@ -52,7 +52,7 @@ For example, "/?q=https://discordapp.com/api/webhooks/728789913434980374/DIUrFts
   discordRequest.setHeader("Content-Type", "application/json");
   discordRequest.write(
     JSON.stringify({
-      content: `${text}\r\n${url}`,
+      content: !!url ? `${text}\r\n${url}` : text,
     })
   );
   discordRequest.end();
