@@ -10,7 +10,9 @@ app.get("/", async (req, res) => {
   var whAddress = req.query["q"];
   if (!whAddress) {
     res.status(400);
-    res.end("Request parameter 'q' must contain a Discord webhook address");
+    res.end(`Send a GET request with Discord webhook address as query parameter q.\n
+For example, "/?q=https://discordapp.com/api/webhooks/728789913434980374/DIUrFtsKzpHePKP895wnIK6lSbTaBIhn6xQaaL48e9E8gP5ZEpNesTQGeLRuXvrMNRUd"
+`);
     return;
   }
 
@@ -25,13 +27,11 @@ app.get("/", async (req, res) => {
 
   var [whId, whToken] = [whParts[1].trim(), whParts[2].trim()];
   var hash = md5("randomseed12e98u3498u23498u" + whId + whToken);
-  
-  var searchResult = (await whStorage.get(hash) || {}).hash;
+
+  var searchResult = ((await whStorage.get(hash)) || {}).hash;
   if (!searchResult) {
     res.end(await whStorage.set(hash, whId, whToken));
-  }
-  else
-    res.end(searchResult);
+  } else res.end(searchResult);
 });
 
 app.delete("/:id", async (req, res) => {
@@ -39,7 +39,7 @@ app.delete("/:id", async (req, res) => {
   try {
     await whStorage.delete(hash);
   } catch {
-    res.status(400);
+    res.status(404);
     res.end(`Discord endpoint with id ${hash} not found`);
     return;
   }
@@ -48,7 +48,20 @@ app.delete("/:id", async (req, res) => {
 
 app.use(express.json()).post("/:id", async (req, res) => {
   var hash = req.params["id"];
+  if (!hash) {
+    res
+      .status(400)
+      .send(
+        `Send a POST request with Discord endpoint id acquired from sending GET`
+      );
+    return;
+  }
+
   var wh = await whStorage.get(hash);
+  if (!wh) {
+    res.status(404).send(`Discord endpoint with id ${hash} not found`);
+    return;
+  }
 
   var text, url;
   try {
