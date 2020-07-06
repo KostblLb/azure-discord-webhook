@@ -8,6 +8,3 @@ Proxy app to translate Azure DevOps messages to Discord webhooks format
     - Chose a desired trigger and filters, hit **'Next'**
 3. In the Azure Webhook settings' Action page, enter URL for posting as `https://azure-discord-webhook.domain.com/?q=<discord webhook url>`. You may leave other fields untouched
 4. Hit **'Test'** button. The result should be a success, and a message should come to the Discord channel with your webhook.
-
-# Try it
-On https://azure-discord-webhook.herokuapp.com/
