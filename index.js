@@ -20,12 +20,12 @@ For example, "/?q=https://discordapp.com/api/webhooks/728789913434980374/DIUrFts
   try {
     var {
       message: { text },
-      resource: { url },
+      resource: { _links: { web: { href: url } } },
     } = req.body;
   } catch {
     res.status(400);
     res.end(
-      "Request body must conform to { 'message': { 'text' : <string> }, 'resource': { 'url': <string> } }"
+      "Request body must conform to { 'message': { 'text' : <string> }, 'resource': { '_links': { 'web' : { 'href' : <string> } } } }"
     );
     return;
   }
