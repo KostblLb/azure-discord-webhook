@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/KostblLb/azure-discord-webhook#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.3"
   },
   "devDependencies": {
     "prettier": "^2.0.5"
